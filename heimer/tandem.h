@@ -1,6 +1,9 @@
 #ifndef HEIMER_TANDEM_H
 #define HEIMER_TANDEM_H
 
+#include <heimer/control.h>
+#include <heimer/axis.h>
+
 // Оптимизированная для минимизации вычислений пара осей.
 // Взаимодействие осей задаётся одни коэффициентом.
 
@@ -18,7 +21,7 @@ struct paired_axes
 };
 
 __BEGIN_DECLS
-
+/*
 static void _on_activate(control_node_t * node) 
 {
 	struct paired_axes * pair = mcast_out(node, struct paired_axes, node);
@@ -42,16 +45,6 @@ static control_node_t * iterate(control_node_t * self, control_node_t * it)
 	
 	return NULL;
 }
-
-const struct control_ops paired_axes_operations = 
-{
-	.activate = NULL,
-	.deactivate = NULL,
-	.on_activate = _on_activate,
-	.iterate = _iterate,
-	.feedback = paired_axes_feedback,
-	.serve = paired_axes_serve
-};
 
 void paired_axes_init(
 	struct paired_axes * pair,
@@ -83,11 +76,11 @@ void paired_axes_feedback(struct paired_axes * pair)
 
 void paired_axes_serve(struct paired_axes * pair) 
 {
-	float mx = pair->master_controlled->ctrpos;
-	float mv = pair->master_controlled->ctrspd;
+	float mx = pair->master_controlled->ax->ctrpos;
+	float mv = pair->master_controlled->ax->ctrspd;
 
-	float sx = pair->slave_controlled->ctrpos;
-	float sv = pair->slave_controlled->ctrspd;
+	float sx = pair->slave_controlled->ax->ctrpos;
+	float sv = pair->slave_controlled->ax->ctrspd;
 
 	master->ctrpos = mx;
 	master->ctrspd = mv;
@@ -95,7 +88,7 @@ void paired_axes_serve(struct paired_axes * pair)
 	slave->ctrpos = sx + pair->k * mx;
 	slave->ctrspd = sv + pair->k * mv;
 };	
-
+*/
 __END_DECLS
 
 #endif
